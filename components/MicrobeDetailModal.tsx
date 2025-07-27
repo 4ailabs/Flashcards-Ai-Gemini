@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import ReactMarkdown from 'react-markdown';
 import type { Microbe } from '../types';
 import { AiAction } from '../types';
 import { callGemini } from '../services/geminiService';
@@ -33,8 +34,6 @@ export const MicrobeDetailModal: React.FC<MicrobeDetailModalProps> = ({ microbe,
         setAiResponse(response);
         setIsLoading(false);
     }, [microbe]);
-    
-    const formattedAiResponse = aiResponse?.replace(/\n/g, '<br />');
 
     return (
         <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm">
@@ -55,7 +54,28 @@ export const MicrobeDetailModal: React.FC<MicrobeDetailModalProps> = ({ microbe,
                     <div id="ai-output" className="p-4 bg-stone-50 rounded-lg border border-stone-200 min-h-[150px] text-gray-700 leading-relaxed">
                         {isLoading && <Loader />}
                         {!isLoading && !aiResponse && <p className="text-stone-500">Selecciona una acción para obtener información detallada de la IA.</p>}
-                        {!isLoading && aiResponse && <div dangerouslySetInnerHTML={{ __html: formattedAiResponse || '' }} />}
+                        {!isLoading && aiResponse && (
+                            <div className="prose prose-sm max-w-none">
+                                <ReactMarkdown
+                                    components={{
+                                        h1: ({children}) => <h1 className="text-xl font-bold text-gray-800 mb-3">{children}</h1>,
+                                        h2: ({children}) => <h2 className="text-lg font-bold text-gray-800 mb-2 mt-4">{children}</h2>,
+                                        h3: ({children}) => <h3 className="text-base font-bold text-gray-800 mb-2 mt-3">{children}</h3>,
+                                        p: ({children}) => <p className="mb-3 text-gray-700">{children}</p>,
+                                        ul: ({children}) => <ul className="list-disc list-inside mb-3 space-y-1">{children}</ul>,
+                                        ol: ({children}) => <ol className="list-decimal list-inside mb-3 space-y-1">{children}</ol>,
+                                        li: ({children}) => <li className="text-gray-700">{children}</li>,
+                                        strong: ({children}) => <strong className="font-bold text-gray-800">{children}</strong>,
+                                        em: ({children}) => <em className="italic text-gray-700">{children}</em>,
+                                        code: ({children}) => <code className="bg-gray-200 px-1 py-0.5 rounded text-sm font-mono">{children}</code>,
+                                        blockquote: ({children}) => <blockquote className="border-l-4 border-primary-500 pl-4 italic text-gray-600 mb-3">{children}</blockquote>,
+                                        hr: () => <hr className="border-gray-300 my-4" />,
+                                    }}
+                                >
+                                    {aiResponse}
+                                </ReactMarkdown>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
