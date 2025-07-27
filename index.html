@@ -159,7 +159,6 @@
         background-color: #e35a18;
       }
     </style>
-    <link rel="stylesheet" href="/index.css">
   </head>
   <body class="bg-gradient-to-br from-slate-50 to-slate-100 text-slate-800 antialiased">
     <div id="root">
@@ -171,59 +170,202 @@
       </div>
     </div>
 
-    <!-- Diagnostic script -->
+    <!-- Simple React-like app -->
     <script>
-      console.log('Starting application load...');
+      console.log('Starting simple app...');
       
-      // Check if modules are supported
-      if (typeof import === 'undefined') {
-        console.error('ES modules not supported');
-        showError('Tu navegador no soporta módulos ES6. Por favor, actualiza tu navegador.');
-      }
+      // Simple app state
+      let microbes = [];
+      let filteredMicrobes = [];
+      let searchTerm = '';
+      let selectedFilter = 'all';
+      let isLoading = false;
 
-      // Check if fetch is available
-      if (typeof fetch === 'undefined') {
-        console.error('Fetch not supported');
-        showError('Tu navegador no soporta fetch. Por favor, actualiza tu navegador.');
-      }
-
-      function showError(message) {
-        const root = document.getElementById('root');
-        if (root) {
-          root.innerHTML = '<div class="error"><h1>Error al cargar la aplicación</h1><p>' + message + '</p><button onclick="window.location.reload()">Recargar</button></div>';
+      // Microbe data
+      const microbeData = [
+        {
+          id: 1,
+          name: "Escherichia coli",
+          type: "Bacteria",
+          description: "Bacteria Gram-negativa, bacilo, anaerobia facultativa",
+          characteristics: ["Gram-negativa", "Bacilo", "Anaerobia facultativa"],
+          image: "🦠"
+        },
+        {
+          id: 2,
+          name: "Staphylococcus aureus",
+          type: "Bacteria",
+          description: "Bacteria Gram-positiva, coco, anaerobia facultativa",
+          characteristics: ["Gram-positiva", "Coco", "Anaerobia facultativa"],
+          image: "🦠"
+        },
+        {
+          id: 3,
+          name: "Candida albicans",
+          type: "Fungi",
+          description: "Hongo unicelular, levadura, oportunista",
+          characteristics: ["Unicelular", "Levadura", "Oportunista"],
+          image: "🍄"
+        },
+        {
+          id: 4,
+          name: "Influenza A",
+          type: "Virus",
+          description: "Virus de ARN, envoltura lipídica, estacional",
+          characteristics: ["ARN", "Envoltura", "Estacional"],
+          image: "🦠"
         }
+      ];
+
+      // Initialize app
+      function initApp() {
+        microbes = [...microbeData];
+        filteredMicrobes = [...microbes];
+        renderApp();
       }
 
-      // Try to load the main script
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = '/main.tsx';
-      
-      script.onload = function() {
-        console.log('Main script loaded successfully');
-      };
-      
-      script.onerror = function(e) {
-        console.error('Failed to load main script:', e);
-        showError('Error al cargar la aplicación. Por favor, recarga la página.');
-      };
+      // Render functions
+      function renderApp() {
+        const root = document.getElementById('root');
+        if (!root) return;
 
-      // Add error handler for unhandled errors
-      window.addEventListener('error', function(e) {
-        console.error('Unhandled error:', e.error);
-        showError('Error al cargar la aplicación. Por favor, recarga la página.');
-      });
+        root.innerHTML = `
+          <div class="min-h-screen">
+            <!-- Header -->
+            <header class="relative overflow-hidden bg-gradient-to-br from-primary-500 to-primary-600 text-white">
+              <div class="absolute inset-0 bg-black/10"></div>
+              <div class="relative z-10 container mx-auto px-4 py-16 sm:py-24">
+                <div class="text-center max-w-4xl mx-auto">
+                  <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
+                    BioFlashcardsMaster AI
+                  </h1>
+                  <p class="text-xl sm:text-2xl mb-8 text-primary-100 animate-slide-up">
+                    Aprende microbiología con IA
+                  </p>
+                  <div class="glass-effect rounded-2xl p-8 mb-8 animate-slide-up">
+                    <h2 class="text-2xl font-bold mb-4">Teoría Fundamental</h2>
+                    <p class="text-lg text-primary-100 leading-relaxed">
+                      Los microorganismos son seres vivos microscópicos que incluyen bacterias, virus, hongos y protozoos. 
+                      Son fundamentales para la vida en la Tierra y tienen aplicaciones en medicina, agricultura y biotecnología.
+                    </p>
+                  </div>
+                  <button onclick="generateWithAI()" class="bg-white text-primary-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 animate-slide-up">
+                    🚀 Generar con IA
+                  </button>
+                </div>
+              </div>
+            </header>
 
-      // Add error handler for unhandled promise rejections
-      window.addEventListener('unhandledrejection', function(e) {
-        console.error('Unhandled promise rejection:', e.reason);
-        showError('Error al cargar la aplicación. Por favor, recarga la página.');
-      });
+            <!-- Search and Filters -->
+            <div class="sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-secondary-200">
+              <div class="container mx-auto px-4 py-4">
+                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                  <div class="relative flex-1 max-w-md">
+                    <input 
+                      type="text" 
+                      placeholder="Buscar microorganismos..." 
+                      class="w-full pl-12 pr-4 py-3 border border-secondary-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      onkeyup="handleSearch(this.value)"
+                    >
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-secondary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                  </div>
+                  <div class="flex gap-2">
+                    <button onclick="filterMicrobes('all')" class="px-4 py-2 rounded-lg font-medium transition-all ${selectedFilter === 'all' ? 'bg-primary-500 text-white' : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'}">
+                      Todos
+                    </button>
+                    <button onclick="filterMicrobes('bacteria')" class="px-4 py-2 rounded-lg font-medium transition-all ${selectedFilter === 'bacteria' ? 'bg-primary-500 text-white' : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'}">
+                      Bacterias
+                    </button>
+                    <button onclick="filterMicrobes('virus')" class="px-4 py-2 rounded-lg font-medium transition-all ${selectedFilter === 'virus' ? 'bg-primary-500 text-white' : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'}">
+                      Virus
+                    </button>
+                    <button onclick="filterMicrobes('fungi')" class="px-4 py-2 rounded-lg font-medium transition-all ${selectedFilter === 'fungi' ? 'bg-primary-500 text-white' : 'bg-secondary-100 text-secondary-700 hover:bg-secondary-200'}">
+                      Hongos
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      // Load the script after a short delay
-      setTimeout(function() {
-        document.head.appendChild(script);
-      }, 100);
+            <!-- Results Counter -->
+            <div class="container mx-auto px-4 py-6">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-secondary-800">
+                  Microorganismos ({filteredMicrobes.length})
+                </h2>
+              </div>
+
+              <!-- Microbes Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                ${filteredMicrobes.map(microbe => `
+                  <div class="card-hover bg-white rounded-2xl p-6 shadow-lg border border-secondary-200">
+                    <div class="text-4xl mb-4 text-center">${microbe.image}</div>
+                    <h3 class="text-xl font-bold text-secondary-800 mb-2">${microbe.name}</h3>
+                    <p class="text-sm text-secondary-600 mb-3">${microbe.type}</p>
+                    <p class="text-secondary-700 mb-4">${microbe.description}</p>
+                    <div class="flex flex-wrap gap-2">
+                      ${microbe.characteristics.map(char => `
+                        <span class="px-2 py-1 bg-primary-100 text-primary-700 text-xs rounded-full font-medium">
+                          ${char}
+                        </span>
+                      `).join('')}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+
+              ${filteredMicrobes.length === 0 ? `
+                <div class="text-center py-12">
+                  <div class="text-6xl mb-4">🔍</div>
+                  <h3 class="text-xl font-bold text-secondary-800 mb-2">No se encontraron resultados</h3>
+                  <p class="text-secondary-600">Intenta con otros términos de búsqueda</p>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      // Event handlers
+      function handleSearch(value) {
+        searchTerm = value.toLowerCase();
+        filterMicrobes(selectedFilter);
+      }
+
+      function filterMicrobes(filter) {
+        selectedFilter = filter;
+        let filtered = microbes;
+
+        if (filter !== 'all') {
+          filtered = microbes.filter(microbe => 
+            microbe.type.toLowerCase() === filter
+          );
+        }
+
+        if (searchTerm) {
+          filtered = filtered.filter(microbe =>
+            microbe.name.toLowerCase().includes(searchTerm) ||
+            microbe.description.toLowerCase().includes(searchTerm) ||
+            microbe.characteristics.some(char => char.toLowerCase().includes(searchTerm))
+          );
+        }
+
+        filteredMicrobes = filtered;
+        renderApp();
+      }
+
+      function generateWithAI() {
+        alert('Función de IA disponible en la versión completa con React');
+      }
+
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initApp);
+      } else {
+        initApp();
+      }
     </script>
   </body>
 </html>
