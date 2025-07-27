@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import type { Microbe } from '../types';
 import { AiAction } from '../types';
 import { callGemini } from '../services/geminiService';
@@ -57,6 +58,7 @@ export const MicrobeDetailModal: React.FC<MicrobeDetailModalProps> = ({ microbe,
                         {!isLoading && aiResponse && (
                             <div className="prose prose-sm max-w-none">
                                 <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
                                     components={{
                                         h1: ({children}) => <h1 className="text-xl font-bold text-gray-800 mb-3">{children}</h1>,
                                         h2: ({children}) => <h2 className="text-lg font-bold text-gray-800 mb-2 mt-4">{children}</h2>,
