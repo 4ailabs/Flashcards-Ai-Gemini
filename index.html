@@ -132,6 +132,75 @@
         <p class="text-secondary-600 mt-2">Cargando aplicación...</p>
       </div>
     </div>
+
+    <!-- Diagnostic script -->
+    <script>
+      console.log('Starting application load...');
+      
+      // Add error handlers
+      window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        console.error('Error details:', {
+          message: e.message,
+          filename: e.filename,
+          lineno: e.lineno,
+          colno: e.colno
+        });
+        
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = `
+            <div class="loading">
+              <h1 class="text-2xl font-bold text-red-600 mb-4">Error al cargar la aplicación</h1>
+              <p class="text-secondary-600 mb-4">Detalles del error:</p>
+              <pre class="text-xs bg-gray-100 p-4 rounded mb-4 overflow-auto max-w-full">${e.message}\n${e.filename}:${e.lineno}:${e.colno}</pre>
+              <button onclick="window.location.reload()" class="px-4 py-2 bg-primary-500 text-white rounded-lg">
+                Recargar
+              </button>
+            </div>
+          `;
+        }
+      });
+
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = `
+            <div class="loading">
+              <h1 class="text-2xl font-bold text-red-600 mb-4">Error de promesa</h1>
+              <p class="text-secondary-600 mb-4">${e.reason}</p>
+              <button onclick="window.location.reload()" class="px-4 py-2 bg-primary-500 text-white rounded-lg">
+                Recargar
+              </button>
+            </div>
+          `;
+        }
+      });
+
+      // Check if script loads
+      setTimeout(function() {
+        console.log('Checking if React app loaded...');
+        const root = document.getElementById('root');
+        if (root && root.children.length === 1 && root.children[0].classList.contains('loading')) {
+          console.log('App still loading after 5 seconds, showing timeout message');
+          root.innerHTML = `
+            <div class="loading">
+              <h1 class="text-2xl font-bold text-yellow-600 mb-4">Tiempo de espera agotado</h1>
+              <p class="text-secondary-600 mb-4">La aplicación está tardando en cargar. Esto puede ser debido a:</p>
+              <ul class="text-sm text-secondary-600 mb-4 text-left">
+                <li>• Problemas de red</li>
+                <li>• Errores en el JavaScript</li>
+                <li>• Problemas de compatibilidad del navegador</li>
+              </ul>
+              <button onclick="window.location.reload()" class="px-4 py-2 bg-primary-500 text-white rounded-lg">
+                Recargar
+              </button>
+            </div>
+          `;
+        }
+      }, 5000);
+    </script>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
