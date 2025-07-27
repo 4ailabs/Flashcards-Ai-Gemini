@@ -19,7 +19,7 @@ export const callGemini = async (prompt: string): Promise<string> => {
             }
         });
 
-        return response.text;
+        return response.text || 'No se recibió respuesta de la IA';
     } catch (error) {
         console.error("Error calling Gemini API:", error);
         if (error instanceof Error) {

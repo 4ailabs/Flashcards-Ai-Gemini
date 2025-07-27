@@ -18,10 +18,7 @@ export default defineConfig(({ mode }) => {
         sourcemap: false,
         rollupOptions: {
           output: {
-            manualChunks: {
-              vendor: ['react', 'react-dom'],
-              ui: ['@google/genai']
-            }
+            manualChunks: undefined
           }
         }
       },

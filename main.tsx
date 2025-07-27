@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
+// Error boundary for the entire app
 interface ErrorBoundaryState {
   hasError: boolean;
 }
@@ -10,7 +11,6 @@ interface ErrorBoundaryProps {
   children: React.ReactNode;
 }
 
-// Error boundary for the entire app
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
@@ -107,4 +107,4 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
   initializeApp();
-}
+} 

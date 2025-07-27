@@ -121,6 +121,43 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+
+      .error {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .error h1 {
+        color: #dc2626;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .error p {
+        color: #64748b;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .error button {
+        padding: 0.5rem 1rem;
+        background-color: #f27522;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .error button:hover {
+        background-color: #e35a18;
+      }
     </style>
     <link rel="stylesheet" href="/index.css">
   </head>
@@ -133,21 +170,60 @@
         <p class="text-secondary-600 mt-2">Cargando aplicación...</p>
       </div>
     </div>
-    <script type="module" src="/index.tsx"></script>
+
+    <!-- Diagnostic script -->
     <script>
-      // Error handling
+      console.log('Starting application load...');
+      
+      // Check if modules are supported
+      if (typeof import === 'undefined') {
+        console.error('ES modules not supported');
+        showError('Tu navegador no soporta módulos ES6. Por favor, actualiza tu navegador.');
+      }
+
+      // Check if fetch is available
+      if (typeof fetch === 'undefined') {
+        console.error('Fetch not supported');
+        showError('Tu navegador no soporta fetch. Por favor, actualiza tu navegador.');
+      }
+
+      function showError(message) {
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = '<div class="error"><h1>Error al cargar la aplicación</h1><p>' + message + '</p><button onclick="window.location.reload()">Recargar</button></div>';
+        }
+      }
+
+      // Try to load the main script
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = '/main.tsx';
+      
+      script.onload = function() {
+        console.log('Main script loaded successfully');
+      };
+      
+      script.onerror = function(e) {
+        console.error('Failed to load main script:', e);
+        showError('Error al cargar la aplicación. Por favor, recarga la página.');
+      };
+
+      // Add error handler for unhandled errors
       window.addEventListener('error', function(e) {
-        console.error('Application error:', e.error);
-        document.getElementById('root').innerHTML = `
-          <div class="loading">
-            <h1 class="text-2xl font-bold text-red-600">Error al cargar la aplicación</h1>
-            <p class="text-secondary-600 mt-2">Por favor, recarga la página</p>
-            <button onclick="window.location.reload()" class="mt-4 px-4 py-2 bg-primary-500 text-white rounded-lg">
-              Recargar
-            </button>
-          </div>
-        `;
+        console.error('Unhandled error:', e.error);
+        showError('Error al cargar la aplicación. Por favor, recarga la página.');
       });
+
+      // Add error handler for unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+        showError('Error al cargar la aplicación. Por favor, recarga la página.');
+      });
+
+      // Load the script after a short delay
+      setTimeout(function() {
+        document.head.appendChild(script);
+      }, 100);
     </script>
   </body>
 </html>
