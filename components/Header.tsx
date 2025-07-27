@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenProtocol }) => {
                         BioFlashcardsMaster AI
                     </h1>
                     <p className="text-base sm:text-lg md:text-xl text-secondary-600 max-w-4xl mx-auto leading-relaxed font-medium px-2 mb-4">
-                        Asistente de Microbioenergética basado en los principios del Dr. Miguel Ojeda Ríos
+                        Asistente de Microbioenergética basado en los principios del Dr. Miguel Ojeda Rios
                     </p>
                     
                     {/* Author Credits */}
@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenProtocol }) => {
                             </div>
                             <div className="text-left">
                                 <p className="text-sm md:text-base font-semibold text-secondary-800">
-                                    Dr. Miguel Ojeda Ríos
+                                    Dr. Miguel Ojeda Rios
                                 </p>
                                 <p className="text-xs md:text-sm text-secondary-600">
                                     Creador de Microbioenergética: El código emocional, energético y simbólico de los microbios

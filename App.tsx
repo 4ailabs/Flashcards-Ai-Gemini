@@ -98,7 +98,7 @@ function App(): React.ReactNode {
                             </div>
                             <div className="text-right">
                                 <p className="text-sm font-semibold text-gray-800">
-                                    Dr. Miguel Ojeda Ríos
+                                    Dr. Miguel Ojeda Rios
                                 </p>
                                 <p className="text-xs text-gray-600">
                                     Creador de Microbioenergética: El código emocional, energético y simbólico de los microbios
@@ -109,7 +109,7 @@ function App(): React.ReactNode {
                     
                     <div className="mt-4 pt-4 border-t border-gray-200">
                         <p className="text-xs text-center text-gray-500">
-                            © 2024 BioFlashcardsMaster AI. Basado en la investigación y metodología del Dr. Miguel Ojeda Ríos.
+                            © 2024 BioFlashcardsMaster AI. Basado en la investigación y metodología del Dr. Miguel Ojeda Rios.
                         </p>
                     </div>
                 </div>

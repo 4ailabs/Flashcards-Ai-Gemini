@@ -1,6 +1,6 @@
-# 🧬 BioFlashcardsMaster AI
+# BioFlashcardsMaster AI
 
-Asistente de Microbioenergética basado en los principios del Dr. Miguel Ojeda Ríos. Una aplicación moderna para explorar y comprender la teoría de los equivalentes en microbiología.
+Asistente de Microbioenergética basado en los principios del Dr. Miguel Ojeda Rios. Una aplicación moderna para explorar y comprender la teoría de los equivalentes en microbiología.
 
 ## ✨ Características
 
@@ -112,7 +112,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 👨‍⚕️ Créditos
 
-Basado en los principios del **Dr. Miguel Ojeda Ríos** y su trabajo en microbiología energética.
+Basado en los principios del **Dr. Miguel Ojeda Rios** y su trabajo en microbiología energética.
 
 ## 📞 Contacto
 

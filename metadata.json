@@ -1,5 +1,7 @@
 {
   "name": "BioFlashcardsMaster AI",
-  "description": "An interactive web application to explore the bioenergetic and emotional conflicts associated with various microbes, based on the principles of Dr. Miguel Ojeda Ríos. Users can browse and search for microbes, and use an AI assistant to get detailed explanations, summaries, and insights into the symbolic meaning and healing approaches for each one.",
-  "requestFramePermissions": []
+  "description": "A modern microbiology assistant that helps users understand the emotional, energetic, and symbolic meaning of various microbes, based on the principles of Dr. Miguel Ojeda Rios. Users can browse and search for microbes, and use an AI assistant to get detailed explanations, summaries, and insights into the symbolic meaning and healing approaches for each one.",
+  "keywords": ["microbiology", "AI", "health", "energy", "symbolic", "healing", "biomagnetism", "microbioenergetics"],
+  "author": "Dr. Miguel Ojeda Rios",
+  "version": "1.0.0"
 }
