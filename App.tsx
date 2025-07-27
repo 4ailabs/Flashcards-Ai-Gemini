@@ -40,7 +40,7 @@ function App(): React.ReactNode {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-            <div className="container mx-auto px-4 py-8 lg:px-8 lg:py-12 max-w-7xl">
+            <div className="container mx-auto px-4 py-6 md:py-8 lg:px-8 lg:py-12 max-w-7xl">
                 <Header onOpenProtocol={() => setIsProtocolModalOpen(true)} />
 
                 <SearchBar
@@ -50,7 +50,7 @@ function App(): React.ReactNode {
                     onCategoryChange={setActiveCategory}
                 />
 
-                <main className="mt-12">
+                <main className="mt-8 md:mt-12">
                     <MicrobeGrid
                         microbes={filteredMicrobes}
                         onSelectMicrobe={handleSelectMicrobe}
