@@ -19,9 +19,26 @@ export const Header: React.FC<HeaderProps> = ({ onOpenProtocol }) => {
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold gradient-text mb-3 md:mb-4 tracking-tight leading-tight">
                         BioFlashcardsMaster AI
                     </h1>
-                    <p className="text-base sm:text-lg md:text-xl text-secondary-600 max-w-4xl mx-auto leading-relaxed font-medium px-2">
+                    <p className="text-base sm:text-lg md:text-xl text-secondary-600 max-w-4xl mx-auto leading-relaxed font-medium px-2 mb-4">
                         Asistente de Microbioenergética basado en los principios del Dr. Miguel Ojeda Ríos
                     </p>
+                    
+                    {/* Author Credits */}
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/30">
+                        <div className="flex items-center justify-center space-x-2 md:space-x-3">
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-sm md:text-base">👨‍⚕️</span>
+                            </div>
+                            <div className="text-left">
+                                <p className="text-sm md:text-base font-semibold text-secondary-800">
+                                    Dr. Miguel Ojeda Ríos
+                                </p>
+                                <p className="text-xs md:text-sm text-secondary-600">
+                                    Especialista en Microbioenergética y Biomagnetismo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

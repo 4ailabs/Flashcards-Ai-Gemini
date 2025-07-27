@@ -39,8 +39,8 @@ function App(): React.ReactNode {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-            <div className="container mx-auto px-4 py-6 md:py-8 lg:px-8 lg:py-12 max-w-7xl">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex flex-col">
+            <div className="container mx-auto px-4 py-6 md:py-8 lg:px-8 lg:py-12 max-w-7xl flex-grow">
                 <Header onOpenProtocol={() => setIsProtocolModalOpen(true)} />
 
                 <SearchBar
@@ -69,6 +69,47 @@ function App(): React.ReactNode {
                     onClose={() => setIsProtocolModalOpen(false)}
                 />
             </div>
+
+            {/* Footer with Author Credits */}
+            <footer className="bg-white/80 backdrop-blur-sm border-t border-gray-200 mt-12">
+                <div className="container mx-auto px-4 py-6 md:py-8 max-w-7xl">
+                    <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-lg">🧬</span>
+                            </div>
+                            <div>
+                                <p className="text-sm font-semibold text-gray-800">
+                                    BioFlashcardsMaster AI
+                                </p>
+                                <p className="text-xs text-gray-600">
+                                    Asistente de Microbioenergética
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-sm">👨‍⚕️</span>
+                            </div>
+                            <div className="text-right">
+                                <p className="text-sm font-semibold text-gray-800">
+                                    Dr. Miguel Ojeda Ríos
+                                </p>
+                                <p className="text-xs text-gray-600">
+                                    Especialista en Microbioenergética y Biomagnetismo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                        <p className="text-xs text-center text-gray-500">
+                            © 2024 BioFlashcardsMaster AI. Basado en la investigación y metodología del Dr. Miguel Ojeda Ríos.
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 }
